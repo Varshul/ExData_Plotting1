@@ -1,0 +1,15 @@
+a <- read.table("household_power_consumption.txt",sep=";",header=TRUE,na.strings="?",stringsAsFactors=FALSE,quote="")
+d <- a[which(a$Date =="1/2/2007" | a$Date == "2/2/2007"),]
+d$Date <- as.Date(d$Date,"%d/%m/%Y")
+d$DateTime <- as.POSIXct(paste(d$Date, d$Time))
+  
+  png(file="plot4.png")
+  with(faithful, par(mfrow=c(2,2))
+      +plot(d$DateTime, d$Global_active_power, type= "l", ylab= "Global Active Power", xlab="", lwd=1)
+      +plot(d$DateTime,d$Voltage,type="l",xlab="datetime",ylab="Voltage")
+      +plot(d$DateTime,d$Sub_metering_1,type="l",ylab="Energy sub metering",xlab="")
+      +lines(d$DateTime,d$Sub_metering_2,type="l",col="Red")
+      +lines(d$DateTime,d$Sub_metering_3,type="l",col="Blue")
+      +plot(d$DateTime,d$Global_reactive_power,type="l",xlab="datetime",ylab="Global_reactive_power")
+  )
+  dev.off()
